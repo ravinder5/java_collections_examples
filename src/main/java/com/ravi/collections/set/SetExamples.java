@@ -7,17 +7,32 @@ import java.util.*;
 public class SetExamples {
 
     public static void main(String[] args) {
-        HashSet<String> testSet = new HashSet<>();
-        testSet.add("Student5");
-        testSet.add("Student2");
-        testSet.add("Student4");
-        testSet.add("Student1");
-        testSet.add("Student3");
-        testSet.add("Student1");
+        normalHashSet();
+        // no equals() and hashcode()
+        hashSetWithDuplicateObjectsandNoEqualsandHashcodeOverride();
+        // overridden equals() and hashcode()
+        hashSetWithDuplicateObjectsandHasEqualsandHashcodeOverride();
+    }
 
-        //[Student3, Student4, Student5, Student1, Student2]
-        System.out.println(testSet);
+    private static void hashSetWithDuplicateObjectsandHasEqualsandHashcodeOverride() {
+        Student1 student11 = new Student1(59, "John", 20);
+        Student1 student12 = new Student1(67, "Roger", 22);
+        Student1 student13 = new Student1(45, "Steven", 24);
+        Student1 student14 = new Student1(45, "Steven", 24);
 
+        HashSet<Student1> testSet2 = new HashSet<>();
+        testSet2.add(student11);
+        testSet2.add(student12);
+        testSet2.add(student13);
+        testSet2.add(student14);
+        testSet2.add(student13);
+        // [Student{rank=45, name='Steven', age=24}, Student{rank=67, name='Roger', age=22}, Student{rank=59, name='John', age=20}]
+        // output will have student11, student12, student13
+        // Because we have implemented and overriden equals() and hashcode() methods student13 and student14 are treated as same objects and hence when we try to add student14 it will not be added to HashSet
+        System.out.println(testSet2);
+    }
+
+    private static void hashSetWithDuplicateObjectsandNoEqualsandHashcodeOverride() {
         Student student1 = new Student(59, "John", 20);
         Student student2 = new Student(67, "Roger", 22);
         Student student3 = new Student(45, "Steven", 24);
@@ -35,23 +50,19 @@ public class SetExamples {
         // Note: you might be wondering why student4 is still allowed even though it has same values as student3. It is because we dont have hashcode() and equals() methods overridden in th student subclass.
         // if the object does not override equals() and hashcode() then two objects with same values are still treated as two different objects in HashSet
         System.out.println(testSet1);
+    }
 
+    private static void normalHashSet() {
+        HashSet<String> testSet = new HashSet<>();
+        testSet.add("Student5");
+        testSet.add("Student2");
+        testSet.add("Student4");
+        testSet.add("Student1");
+        testSet.add("Student3");
+        testSet.add("Student1");
 
-        Student1 student11 = new Student1(59, "John", 20);
-        Student1 student12 = new Student1(67, "Roger", 22);
-        Student1 student13 = new Student1(45, "Steven", 24);
-        Student1 student14 = new Student1(45, "Steven", 24);
-
-        HashSet<Student1> testSet2 = new HashSet<>();
-        testSet2.add(student11);
-        testSet2.add(student12);
-        testSet2.add(student13);
-        testSet2.add(student14);
-        testSet2.add(student13);
-        // [Student{rank=45, name='Steven', age=24}, Student{rank=67, name='Roger', age=22}, Student{rank=59, name='John', age=20}]
-        // output will have student11, student12, student13
-        // Because we have implemented and overriden equals() and hashcode() methods student13 and student14 are treated as same objects and hence when we try to add student14 it will not be added to HashSet
-        System.out.println(testSet2);
+        //[Student3, Student4, Student5, Student1, Student2]
+        System.out.println(testSet);
     }
 
     private static class Student implements Comparable<Student> {
