@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class SortingAMap {
 
     //https://www.baeldung.com/java-sorting
+    //https://stackabuse.com/sorting-algorithms-in-java/
     public static void main(String[] args) {
         HashMap<Integer, String> testMap = new HashMap<>();
         testMap.put(5, "Student5");
